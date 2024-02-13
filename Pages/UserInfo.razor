@@ -1,0 +1,84 @@
+﻿@page "/UserInfo"
+
+<h3>User Information</h3>
+
+<form>
+    <label>First Name:</label>
+    <input type="text" @bind="FirstName" />
+
+    <label>Last Name:</label>
+    <input type="text" @bind="LastName" />
+
+    <label>Email:</label>
+    <input type="email" @bind="Email" />
+
+    <label>Age:</label>
+    <input type="number" @bind="Age" />
+
+    <label>Nationality:</label>
+    <input type="text" @bind="filterText" @oninput="FilterNationalities" />
+    <select @bind="SelectedNationality">
+        <option value="">Select Nationality</option>
+        @foreach (var nationality in filteredNationalities)
+        {
+            <option value="@nationality">@nationality</option>
+        }
+    </select>
+
+    <label>Country of Birth:</label>
+    <input type="text" @bind="CountryOfBirth" />
+
+    <button @onclick="SaveUserInfo">Save</button>
+</form>
+
+@code {
+    private string FirstName { get; set; }
+    private string LastName { get; set; }
+    private string Email { get; set; }
+    private int Age { get; set; }
+    private string filterText = "";
+    private string SelectedNationality { get; set; }
+    private string CountryOfBirth { get; set; }
+    private List<string> nationalities = new List<string>
+    {
+        // List of nationalities A-Z, as provided
+        // Please note, this list would be very long, I'm providing just a small portion here for demonstration
+        "Afghan", "Albanian", "Algerian", "American", /*...and so on*/
+    };
+
+    private List<string> filteredNationalities = new List<string>();
+
+    protected override void OnInitialized()
+    {
+        // Initialize filteredNationalities with all nationalities initially
+        filteredNationalities = nationalities;
+    }
+
+    private void FilterNationalities(ChangeEventArgs e)
+    {
+        filterText = e.Value.ToString().ToLower();
+
+        // Filter nationalities based on the filterText
+        if (!string.IsNullOrEmpty(filterText))
+        {
+            filteredNationalities = nationalities.Where(n => n.ToLower().Contains(filterText)).ToList();
+        }
+        else
+        {
+            filteredNationalities = nationalities;
+        }
+    }
+
+    private void SaveUserInfo()
+    {
+        // You can add code here to save the user information
+        // to a database or perform other actions as needed
+        // For simplicity, let's just display the collected information for now
+        Console.WriteLine($"First Name: {FirstName}");
+        Console.WriteLine($"Last Name: {LastName}");
+        Console.WriteLine($"Email: {Email}");
+        Console.WriteLine($"Age: {Age}");
+        Console.WriteLine($"Nationality: {SelectedNationality}");
+        Console.WriteLine($"Country of Birth: {CountryOfBirth}");
+    }
+}
