@@ -1,0 +1,37 @@
+import csv
+import requests
+from bs4 import BeautifulSoup
+
+def search_uniprot(accession_number):
+    blast_url = f"https://www.uniprot.org/blast/?query={accession_number}"
+    blast_response = requests.get(blast_url)
+    if blast_response.status_code == 200:
+        print(f"BLAST job started successfully for accession number: {accession_number}")
+    else:
+        print(f"Failed to start BLAST job for accession number: {accession_number}")
+
+def main():
+    common_name = input("Which common name do you want to find? ")
+    csv_file = "your_file.csv"  # Assuming the CSV file is in the same directory as the script
+    with open(csv_file, 'r') as file:
+        reader = csv.reader(file)
+        header = next(reader)  # Get the header row
+        if 'Common Name' not in header:
+            print("Common Name column not found in CSV file.")
+            return
+        common_name_index = header.index('Common Name')
+        accession_number_index = header.index('Accession Number') if 'Accession Number' in header else None
+        for row in reader:
+            if row and len(row) > common_name_index:
+                if row[common_name_index] == common_name:
+                    accession_number = row[accession_number_index] if accession_number_index is not None else None
+                    if accession_number:
+                        search_uniprot(accession_number)
+                    else:
+                        print("Accession number not found for the given common name.")
+                    break
+        else:
+            print(f"No entry found for common name '{common_name}'")
+
+if __name__ == "__main__":
+    main()
