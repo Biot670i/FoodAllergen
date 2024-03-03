@@ -13,8 +13,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="FishAllergens\" />
     <Folder Include="EggAllergens\" />
+    <Folder Include="FishAllergens\Salmon\" />
     <Folder Include="MilkAllergens\" />
   </ItemGroup>
 
