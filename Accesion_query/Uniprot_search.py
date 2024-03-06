@@ -1,10 +1,10 @@
 import csv
 import requests
 
-def search_uniprot(accession_numbers):
+def search_uniprot(accession_numbers, common_name):
     for accession_number in accession_numbers:
-        # Construct the URL for retrieving protein information in text format
-        url = f"https://rest.uniprot.org/uniprotkb/{accession_number}.fasta"
+        # Construct the direct download URL for retrieving protein information in FASTA format
+        url = f"https://rest.uniprot.org/uniprotkb/stream?download=true&format=fasta&query=({accession_number})"
 
         # Send HTTP GET request to UniProt REST API
         response = requests.get(url)
@@ -12,12 +12,13 @@ def search_uniprot(accession_numbers):
         # Check if request was successful (status code 200)
         if response.status_code == 200:
             # Save the response content to a file
-            filename = f"uniport_data_{accession_number}.fasta"
-            with open(filename, 'w') as f:
-                f.write(response.text)
+            filename = f"{common_name}_{accession_number}.fasta"
+            with open(filename, 'wb') as f:
+                f.write(response.content)  # Use response.content for binary data
             print(f"UniProt data saved to {filename}")
         else:
-            print(f"Failed to retrieve information for accession number {accession_number}")
+            print(f"Failed to retrieve information for accession number {accession_number}. Status code: {response.status_code}")
+            print("Response content:", response.text)
 
 def main():
     common_name = input("Which common name do you want to find? ").strip()  # Remove leading/trailing whitespace
@@ -40,7 +41,7 @@ def main():
                 if accession_number:
                     accession_numbers.append(accession_number)
         if accession_numbers:
-            search_uniprot(accession_numbers)
+            search_uniprot(accession_numbers, common_name)
         else:
             print("No accession numbers found for the given common name.")
 
