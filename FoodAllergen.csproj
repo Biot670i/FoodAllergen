@@ -17,6 +17,7 @@
     <Folder Include="EggAllergens\" />
     <Folder Include="FishAllergens\Salmon\" />
     <Folder Include="MilkAllergens\" />
+    <Folder Include="NewFolder\" />
   </ItemGroup>
 
 </Project>
