@@ -1,0 +1,80 @@
+﻿@page "/search-protein"
+@using System.Net.Http
+@using FoodAllergen.Models
+
+@using System.Text.Json
+@using System.Collections.Generic
+
+<h1>Search Protein</h1>
+
+<div id="output">
+    @if (ProteinList != null && ProteinList.Any())
+    {
+        <table>
+            <thead>
+                <tr>
+                    <th>Species</th>
+                    <th>Common</th>
+                    <th>IUIS Allergen</th>
+                    <th>Type</th>
+                    <th>Group</th>
+                    <th>Allergenicity</th>
+                    <th>Length</th>
+                    <th>Accession</th>
+                    <th>GI</th>
+                    <th>1st Version</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var protein in ProteinList)
+                {
+                    <tr>
+                        <td>@protein.Species</td>
+                        <td>@protein.Common</td>
+                        <td>@protein.IUIS_Allergen</td>
+                        <td>@protein.Type</td>
+                        <td>@protein.Group</td>
+                        <td>@protein.Allergenicity</td>
+                        <td>@protein.Length</td>
+                        <td>@protein.Accession</td>
+                        <td>@protein.GI</td>
+                        <td>@protein._1st_Version</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <p>No search results found.</p>
+    }
+</div>
+
+@code {
+    [Inject]
+    private HttpClient HttpClient { get; set; }
+
+    private List<Browse_DbDto> ProteinList { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await FetchProteinData();
+    }
+
+    private async Task FetchProteinData()
+    {
+        try
+        {
+            var response = await HttpClient.GetAsync("https://localhost:7068/api/Browse_Db");
+            response.EnsureSuccessStatusCode(); // Throw if not success
+
+            var jsonContent = await response.Content.ReadAsStringAsync();
+            ProteinList = JsonSerializer.Deserialize<List<Browse_DbDto>>(jsonContent);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error fetching protein data: {ex.Message}");
+            // Handle error gracefully, e.g., show error message to user
+        }
+    }
+}

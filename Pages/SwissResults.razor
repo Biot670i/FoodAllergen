@@ -1,0 +1,42 @@
+﻿@page "/mycomponent"
+@inject SwissResults SwissResultsService
+
+public class SwissResults
+{
+    private readonly HttpClient _httpClient;
+
+    public SwissResults(HttpClient httpClient)
+    {
+        _httpClient = httpClient;
+    }
+
+    public async Task StartAutoModelProjectAsync(string token, string targetSequences, string projectTitle)
+    {
+        try
+        {
+            var request = new
+            {
+                TargetSequences = targetSequences,
+                ProjectTitle = projectTitle
+            };
+
+            var response = await _httpClient.PostAsJsonAsync("api/Swiss/start-automodel-project", request);
+
+            if (response.IsSuccessStatusCode)
+            {
+                // Project started successfully
+                Console.WriteLine("Auto Model Project started successfully.");
+            }
+            else
+            {
+                // Handle failure scenario
+                Console.WriteLine("Failed to start Auto Model Project. Status code: " + response.StatusCode);
+            }
+        }
+        catch (Exception ex)
+        {
+            // Handle exceptions
+            Console.WriteLine("An error occurred while starting Auto Model Project: " + ex.Message);
+        }
+    }
+}

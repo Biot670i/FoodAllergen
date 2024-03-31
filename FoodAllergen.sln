@@ -5,6 +5,8 @@ VisualStudioVersion = 17.8.34511.84
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FoodAllergen", "FoodAllergen.csproj", "{B7E1647A-CB79-4DBA-B76B-C6D4F23391EE}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FoodAllergenAPI", "..\FoodAllergenAPI\FoodAllergenAPI\FoodAllergenAPI\FoodAllergenAPI.csproj", "{8CB93D06-1626-427E-84C6-A890B1C69882}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{B7E1647A-CB79-4DBA-B76B-C6D4F23391EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B7E1647A-CB79-4DBA-B76B-C6D4F23391EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B7E1647A-CB79-4DBA-B76B-C6D4F23391EE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8CB93D06-1626-427E-84C6-A890B1C69882}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8CB93D06-1626-427E-84C6-A890B1C69882}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8CB93D06-1626-427E-84C6-A890B1C69882}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8CB93D06-1626-427E-84C6-A890B1C69882}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

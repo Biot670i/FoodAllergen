@@ -7,6 +7,11 @@
     <main>
         <div class="top-row px-4">
             <a href="https://learn.microsoft.com/aspnet/core/" target="_blank">About</a>
+            <div class="authentication-section">
+                <a href="/login">Login</a>
+                <span class="separator">|</span> <!-- Optional: Separator between login and create user links -->
+                <a href="/createuser">Create User</a>
+            </div>
         </div>
 
         <article class="content px-4">
@@ -14,3 +19,19 @@
         </article>
     </main>
 </div>
+
+<style>
+    .top-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .authentication-section a {
+        margin-left: 10px; /* Adjust as needed */
+    }
+
+    .authentication-section .separator {
+        margin: 0 10px; /* Adjust as needed */
+    }
+</style>
