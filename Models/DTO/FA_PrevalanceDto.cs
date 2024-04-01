@@ -1,4 +1,4 @@
-﻿namespace FoodAllergen.Models
+﻿namespace FoodAllergen.Models.DTO
 {
     public class FA_PrevalanceDto
     {

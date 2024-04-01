@@ -1,34 +1,57 @@
 ﻿@page "/allergenage"
+@using FoodAllergen.Models.DTO
+@using System.Net.Http.Json
+@inject HttpClient HttpClient
 
 <h3>AllergenAge</h3>
 
-<input type="file" id="fileInput" />
+<table class="table">
+    <thead>
+        <tr>
+            <th>Variable</th>
+            <th>Prevalence of Current FA (95% CI)</th>
+            <th>P Value</th>
+            <th>Prevalence of Adult-Onset Current FA (95% CI)</th>
+            <th>P Value 2</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (faPrevalances != null)
+        {
+            @foreach (var faPrevalance in faPrevalances)
+            {
+                <tr>
+                    <td>@faPrevalance.Variable</td>
+                    <td>@faPrevalance.Prevalence_of_Current_FA_95_CI</td>
+                    <td>@faPrevalance.P_Value</td>
+                    <td>@faPrevalance.Prevalence_of_Adult_Onset_Current_FA_95_CI</td>
+                    <td>@faPrevalance.P_Value2</td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="5">Loading...</td>
+            </tr>
+        }
+    </tbody>
+</table>
 
-<div id="csvTable"></div>
+@code {
+    List<FA_PrevalanceDto> faPrevalances;
 
-<script>
-    document.getElementById('fileInput').addEventListener('change', function (e) {
-        var file = e.target.files[0];
-        var reader = new FileReader();
-
-        reader.onload = function (e) {
-            var csv = e.target.result;
-            var rows = csv.split('\n');
-
-            var html = '<table>';
-            rows.forEach(function (row) {
-                html += '<tr>';
-                var columns = row.split(',');
-                columns.forEach(function (column) {
-                    html += '<td>' + column + '</td>';
-                });
-                html += '</tr>';
-            });
-            html += '</table>';
-
-            document.getElementById('csvTable').innerHTML = html;
-        };
-
-        reader.readAsText(file);
-    });
-</script>
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            // Make an HTTP request to fetch data from the API endpoint
+            faPrevalances = await HttpClient.GetFromJsonAsync<List<FA_PrevalanceDto>>("api/FA_Prevalance");
+        }
+        catch (Exception ex)
+        {
+            // Handle any exceptions, e.g., log or display an error message
+            Console.WriteLine($"An error occurred: {ex.Message}");
+        }
+    }
+}

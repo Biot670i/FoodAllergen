@@ -1,7 +1,7 @@
 ﻿@page "/createuser"
 @inject HttpClient httpClient
 @inject NavigationManager navigationManager
-@inject IToastService toastService
+@using FoodAllergen.Models.DTO
 
 <h3>Create User</h3>
 <form @onsubmit="CreateNewUser">
@@ -25,19 +25,20 @@
             if (response.IsSuccessStatusCode)
             {
                 var successMessage = await response.Content.ReadAsStringAsync();
-                toastService.ShowSuccess(successMessage);
                 // Redirect to login page or other page
                 navigationManager.NavigateTo("/login");
             }
             else
             {
                 var errorMessage = await response.Content.ReadAsStringAsync();
-                toastService.ShowError(errorMessage);
+                // Handle error message as needed
+                Console.WriteLine(errorMessage);
             }
         }
         catch (Exception ex)
         {
-            toastService.ShowError("An error occurred while trying to create a new user.");
+            // Handle exceptions
+            Console.WriteLine("An error occurred while trying to create a new user.");
         }
     }
 }

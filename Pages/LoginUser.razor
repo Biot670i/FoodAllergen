@@ -1,12 +1,11 @@
 ﻿@page "/login"
 @inject HttpClient httpClient
 @inject NavigationManager navigationManager
-@inject IToastService toastService
 
-@using FoodAllergenAPI.Models.DTO
+@using FoodAllergen.Models.DTO
 
 <h3>Login</h3>
-<form @onsubmit="LoginUser">
+<form @onsubmit="Login">
     <label for="username">Username:</label>
     <input id="username" type="text" @bind="loginRequest.Username" />
     <label for="password">Password:</label>
@@ -17,7 +16,7 @@
 @code {
     private LoginRequestDto loginRequest = new LoginRequestDto();
 
-    private async Task LoginUser()
+    private async Task Login()
     {
         try
         {
@@ -33,13 +32,18 @@
             {
                 // Display error message
                 var errorMessage = await response.Content.ReadAsStringAsync();
-                toastService.ShowError(errorMessage);
+                // Show error message without IToastService
+                // You can handle this according to your UI framework or preference
+                // For example:
+                Console.WriteLine(errorMessage);
             }
         }
-        catch (Exception ex)
+        catch (Exception)
         {
             // Handle exceptions
-            toastService.ShowError("An error occurred while trying to log in.");
+            // You can handle this according to your UI framework or preference
+            // For example:
+            Console.WriteLine("An error occurred while trying to log in.");
         }
     }
-    }
+}

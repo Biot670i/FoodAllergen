@@ -1,4 +1,5 @@
 using FoodAllergen;
+using FoodAllergen.Pages;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 
@@ -12,5 +13,6 @@ builder.Services.AddScoped(sp => new HttpClient
 {
     BaseAddress = new Uri("https://localhost:7068")
 });
+
 
 await builder.Build().RunAsync();

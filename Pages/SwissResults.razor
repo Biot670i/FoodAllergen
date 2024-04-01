@@ -1,26 +1,44 @@
 ﻿@page "/mycomponent"
-@inject SwissResults SwissResultsService
+@inject HttpClient HttpClient
 
-public class SwissResults
-{
-    private readonly HttpClient _httpClient;
-
-    public SwissResults(HttpClient httpClient)
+<select @bind="SelectedCommonFood">
+    @foreach (var commonFood in CommonFoods)
     {
-        _httpClient = httpClient;
+        <option value="@commonFood">@commonFood</option>
+    }
+</select>
+
+<button @onclick="StartAutoModelProjectAsync">Start Auto Model Project</button>
+
+@code {
+    private List<string> CommonFoods = new List<string>();
+    private string SelectedCommonFood;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadCommonFoods();
     }
 
-    public async Task StartAutoModelProjectAsync(string token, string targetSequences, string projectTitle)
+    private async Task LoadCommonFoods()
+    {
+        var response = await HttpClient.GetAsync("api/Browse_Db/Common");
+        if (response.IsSuccessStatusCode)
+        {
+            CommonFoods = await response.Content.ReadFromJsonAsync<List<string>>();
+        }
+    }
+
+    private async Task StartAutoModelProjectAsync()
     {
         try
         {
             var request = new
             {
-                TargetSequences = targetSequences,
-                ProjectTitle = projectTitle
+                TargetSequences = SelectedCommonFood,
+                ProjectTitle = "Your Project Title" // Provide a project title here
             };
 
-            var response = await _httpClient.PostAsJsonAsync("api/Swiss/start-automodel-project", request);
+            var response = await HttpClient.PostAsJsonAsync("api/Swiss/start-automodel-project", request);
 
             if (response.IsSuccessStatusCode)
             {

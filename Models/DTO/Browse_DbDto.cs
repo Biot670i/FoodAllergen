@@ -1,8 +1,7 @@
-﻿namespace FoodAllergen.Models
+﻿namespace FoodAllergen.Models.DTO
 {
     public class Browse_DbDto
     {
-        public Guid Id { get; set; }
         public string Species { get; set; }
         public string? Common { get; set; }
         public string? IUIS_Allergen { get; set; }
